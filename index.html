@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Agency</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #eef5f9;
+            text-align: center;
+        }
+        header {
+            background: linear-gradient(90deg, #0077b6, #00b4d8);
+            color: white;
+            padding: 20px;
+            font-size: 24px;
+        }
+        .profile {
+            margin: 10px;
+            padding: 10px;
+            background: white;
+            border-radius: 10px;
+            display: inline-block;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 20px;
+        }
+        .destination {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin: 15px;
+            padding: 20px;
+            width: 300px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .destination:hover {
+            transform: scale(1.05);
+        }
+        .destination img {
+            width: 100%;
+            height: 180px;
+            border-radius: 10px;
+        }
+        button {
+            background-color: #d9534f;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #c9302c;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        Welcome, <span id="userName"></span>! Choose Your Destination
+    </header>
+
+    <div class="profile">
+        <h3>Profile</h3>
+        <p>Email: <span id="userEmail"></span></p>
+    </div>
+
+    <div class="container">
+        <div class="destination" onclick="selectDestination('paris')">
+            <img src="paris.png" alt="Paris">
+            <h3>Paris, France</h3>
+            <p>The city of love and culture.</p>
+        </div>
+        <div class="destination" onclick="selectDestination('maldives')">
+            <img src="maldives.png" alt="Maldives">
+            <h3>Maldives</h3>
+            <p>Relax in tropical paradise.</p>
+        </div>
+        <div class="destination" onclick="selectDestination('tokyo')">
+            <img src="tokyo.png" alt="Tokyo">
+            <h3>Tokyo, Japan</h3>
+            <p>A fusion of tradition and technology.</p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("userName").innerText = sessionStorage.getItem("username") || "Guest";
+        document.getElementById("userEmail").innerText = sessionStorage.getItem("email");
+
+        function selectDestination(destination) {
+            sessionStorage.setItem("selectedDestination", destination);
+            window.location.href = "destination.html";
+        }
+
+        function logout() {
+            sessionStorage.clear();
+            window.location.href = "register.html";
+        }
+    </script>
+</body>
+</html>

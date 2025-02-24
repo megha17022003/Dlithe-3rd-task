@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Destination</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #eef5f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 400px;
+        }
+        img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        h2 {
+            color: #0077b6;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        p {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        button {
+            background-color: #0077b6;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background-color: #005f8d;
+        }
+        .booking-list {
+            text-align: left;
+            margin-top: 20px;
+        }
+        .booking-list li {
+            background: #f8f9fa;
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 id="destinationTitle"></h2>
+        <img id="destinationImage" src="" alt="Destination Image">
+        <p id="destinationInfo"></p>
+        
+        <h3>Book Your Trip</h3>
+        <input type="date" id="travelDate" required>
+        <button onclick="bookTrip()">Confirm Booking</button>
+
+        <h3>Your Previous Bookings</h3>
+        <ul id="bookingList" class="booking-list"></ul>
+    </div>
+
+    <script>
+        let destination = sessionStorage.getItem("selectedDestination");
+        let destinations = {
+            "paris": { title: "Paris, France", info: "Enjoy the Eiffel Tower and rich culture.", img: "paris.png" },
+            "maldives": { title: "Maldives", info: "Relax on pristine beaches.", img: "maldives.png" },
+            "tokyo": { title: "Tokyo, Japan", info: "Discover traditions and technology.", img: "tokyo.png" }
+        };
+
+        if (destination && destinations[destination]) {
+            document.getElementById("destinationTitle").innerText = destinations[destination].title;
+            document.getElementById("destinationImage").src = destinations[destination].img;
+            document.getElementById("destinationInfo").innerText = destinations[destination].info;
+        }
+
+        function bookTrip() {
+            let date = document.getElementById("travelDate").value;
+            if (!date) {
+                alert("Please select a date.");
+                return;
+            }
+            let bookings = JSON.parse(localStorage.getItem("bookings")) || [];
+            bookings.push({ destination, date });
+            localStorage.setItem("bookings", JSON.stringify(bookings));
+            alert("Trip Booked!");
+            loadBookings();
+        }
+
+        function loadBookings() {
+            let bookings = JSON.parse(localStorage.getItem("bookings")) || [];
+            let list = document.getElementById("bookingList");
+            list.innerHTML = "";
+            bookings.forEach(b => {
+                let li = document.createElement("li");
+                li.innerText = `${destinations[b.destination].title} - ${b.date}`;
+                list.appendChild(li);
+            });
+        }
+        loadBookings();
+    </script>
+</body>
+</html>
